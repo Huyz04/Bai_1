@@ -1,0 +1,299 @@
+﻿body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.Head {
+    width: 100%;
+    height: 170px;
+    background-color: #f7f7f7;
+    border-bottom:1px solid #cdcdcd ;
+}
+.Head .Add_Change {
+        display: flex;
+    }
+.Content {
+    width: 100%;
+    height: calc(95% - 200px);
+    background-color: #ffffff;
+    position: relative;
+    overflow: auto;
+}
+
+.Head .Product {
+    margin: 0;
+    margin-left: 20px;
+    font-size: 38px;
+    width: 200px;
+    height: 100px;
+    text-align: left;
+    line-height: 100px;
+}
+
+.Head .Add_Change .Add {
+    margin-left: 20px;
+    border-radius: 5px;
+    width: 220px;
+    height: 45px;
+    font-size: 22px;
+    background-color: #17a2b8;
+    text-align: center;
+    line-height: 45px;
+    color: #f0faf3;
+}
+.Head .Add_Change .Add:hover {
+        background-color: #65ccdd;
+        cursor: pointer;
+    }
+.Head .Add_Change .Change {
+    margin-left: 20px;
+    border-radius: 5px;
+    width: 220px;
+    height: 45px;
+    font-size: 22px;
+    background-color: #17a2b8;
+    text-align: center;
+    line-height: 45px;
+    color: #f0faf3;
+}
+.Head .Add_Change .Change:hover {
+    background-color: #65ccdd;
+    cursor: pointer;
+}
+/*Table*/
+.Content table {
+    width: calc(100% - 40px);
+    border-collapse: collapse;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+}
+table th{
+    text-align: left;
+    padding: 8px;
+}
+tr td:nth-child(2) {
+    color: #80d3ff;
+}
+table td{
+    padding: 10px;
+}
+
+/*Func */
+.func {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    font-size:20px;
+}
+    .func .funcs {
+        display: inline-block;
+        width: fit-content;
+        height: fit-content;
+        margin: 5px;
+        position: relative;
+    }
+    
+    .func .funcL {
+        display: inline-block;
+        width: fit-content;
+        height: fit-content;
+        margin: 5px;
+    }
+    .func .funcs:hover{
+        cursor: pointer;
+    }
+    .func .funcL:hover {
+        cursor: pointer;
+    }
+    .funcs::after {
+        content: "|"; /* Thêm dấu gạch đứng vào cuối mỗi div */
+        position: absolute;
+        top: 45%; /* Đặt vị trí theo chiều dọc ở giữa */
+        right: -10px; /* Đặt khoảng cách giữa dấu gạch đứng và text (tùy chỉnh theo mong muốn) */
+        transform: translateY(-50%); /* Dịch chuyển lên trên 50% để căn giữa theo chiều dọc */
+    }
+.mau {
+    color: #007aff;
+}
+
+.dialog {
+    display: none;
+    background-color: #808080;
+    opacity: 40%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+.dialog-add {
+    display: none;
+    border: 3px solid #17a2b8;
+    border-radius: 3px;
+    width: 1000px;
+    height: 600px;
+    position: absolute;
+    top: calc(50% - 300px);
+    left: calc(50% - 500px);
+    background-color: #fff;
+}
+    .dialog-add .add-title {
+        background-color: #17a2b8;
+        width: 100%;
+        height: 40px;
+        display: flex;
+    }
+    .dialog-add .add-title .add-title-text {
+        color: #fff;
+        padding: 10px;
+        width: 100%;
+        height: 20px;
+
+    }
+        .dialog-add .add-title .add-title-icon {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: 10px;
+            background-image: url('../../content/img/cross.png');
+            background-repeat: no-repeat;
+            background-size: 50%;
+            background-position: center;
+            cursor: pointer;
+        }
+
+    .dialog-add .add-body {
+        padding: 10px;
+    }
+input {
+    padding: 0px 0px 0px 3px;
+    border: 1px solid #000;
+    height: 25px;
+}
+    input:focus {
+        border: 1px solid #007aff;
+        outline: none;
+    }
+
+.row {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+}
+.dialog-add .add-footer {
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+
+}
+
+    button {
+        height: 50px;
+        width: 80px;
+    }
+button#btnSave {
+    background-color: #17e554;
+    cursor: pointer;
+}
+button#btnCancel {
+        background-color: #d81616;
+        cursor: pointer;
+    }
+.error {
+    border: 1px solid #d81616;
+}
+.dialog-change {
+    display: none;
+    border: 3px solid #17a2b8;
+    border-radius: 3px;
+    width: 1000px;
+    height: 600px;
+    position: absolute;
+    top: calc(50% - 300px);
+    left: calc(50% - 500px);
+    background-color: #fff;
+}
+
+    .dialog-change .change-title {
+        background-color: #17a2b8;
+        width: 100%;
+        height: 40px;
+        display: flex;
+    }
+
+        .dialog-change .change-title .change-title-text {
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            height: 20px;
+        }
+
+        .dialog-change .change-title .change-title-icon {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: 10px;
+            background-image: url('../../content/img/cross.png');
+            background-repeat: no-repeat;
+            background-size: 50%;
+            background-position: center;
+            cursor: pointer;
+        }
+
+    .dialog-change .change-body {
+        padding: 10px;
+    }
+
+input {
+    padding: 0px 0px 0px 3px;
+    border: 1px solid #000;
+    height: 25px;
+}
+
+    input:focus {
+        border: 1px solid #007aff;
+        outline: none;
+    }
+
+.row {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+}
+
+.dialog-change .change-footer {
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+}
+
+    button#btnCSave {
+        background-color: #17e554;
+        cursor: pointer;
+    }
+
+    button#btnCCancel {
+        background-color: #d81616;
+        cursor: pointer;
+    }
+table tbody tr:hover{
+    background-color: #cdcdcd;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #cdcdcd;
+}
