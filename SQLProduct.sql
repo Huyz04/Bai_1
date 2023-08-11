@@ -1,8 +1,9 @@
 CREATE DATABASE BAI1;
 USE BAI1;
 
+
 CREATE TABLE product (
-  ID INT  NOT NULL IDENTITY(1,1),
+  ID INT  NOT NULL ,
   Code VARCHAR(9) NOT NULL,
   Name VARCHAR(90) NOT NULL,
   Category VARCHAR(28) NOT NULL,
@@ -17,7 +18,6 @@ CREATE TABLE product (
 ALTER TABLE product
 ADD CONSTRAINT UX_product_code UNIQUE (code);
 
-SET IDENTITY_INSERT product ON;
 
 INSERT INTO product (ID, Code, Name, Category, Brand, Type, Description) VALUES (1, 'P001', 'MASK ADULT Surgical 3 ply 50''S MEDICOS with box', 'Health Accessories', 'Medicos', 'Hygiene', 'Colour: Blue (ear loop outside, ear loop inside- random assigned), Green, Purple, White, Lime Green, Yellow, Pink');
 INSERT INTO product  (ID, Code, Name, Category, Brand, Description) VALUES (2, 'P002', 'Party Cosplay Player Unknown Battlegrounds Clothes Hallowmas PUBG', 'Men''s Clothing', 'No Brand', 'Suitable for adults and children.');
@@ -38,5 +38,44 @@ INSERT INTO product  (ID, Code, Name, Category, Brand, Type, Description) VALUES
 
 COMMIT;
 
-SELECT * FROM product;
-SELECT * FROM product;
+SELECT * FROM product; 
+
+SELECT
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE Insert_product
+	@ID INT,
+	@Code VARCHAR(9),
+	@Name VARCHAR(90),
+	@Category VARCHAR(28),
+	@Brand VARCHAR(28),
+	@Type VARCHAR(21),
+	@Description VARCHAR(180)
+AS
+BEGIN
+	SET NOCOUNT OFF;
+	INSERT INTO product 
+	(ID, Code, Name, Category, Brand, Type, Description) 
+	VALUES 
+	(
+		@ID,
+		@Code, 
+		@Name,
+		@Category, 
+		@Brand ,
+		@Type ,
+		@Description 
+	);
+
+END
+GO
+
+SET IDENTITY_INSERT product ON;
