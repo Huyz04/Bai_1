@@ -51,6 +51,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
+--proc insert
 CREATE PROCEDURE Insert_product
 	@ID INT,
 	@Code VARCHAR(9),
@@ -79,3 +80,36 @@ END
 GO
 
 SET IDENTITY_INSERT product ON;
+-- proc update
+CREATE PROCEDURE Update_product
+	@ID INT,
+	@Code VARCHAR(9),
+	@Name VARCHAR(90),
+	@Category VARCHAR(28),
+	@Brand VARCHAR(28),
+	@Type VARCHAR(21),
+	@Description VARCHAR(180)
+AS
+BEGIN
+	SET NOCOUNT OFF;
+	UPDATE product
+	SET Code = @Code,
+		Name = @Name,
+		Category = @Category,
+		Brand = @Brand,
+		Type = @Type,
+		Description = @Description
+	WHERE ID = @ID;
+END
+GO
+
+-- proc xoa
+CREATE PROCEDURE Delete_product
+	@ID INT
+AS
+BEGIN
+	SET NOCOUNT OFF;
+	DELETE FROM product
+	WHERE ID = @ID;
+END
+GO
