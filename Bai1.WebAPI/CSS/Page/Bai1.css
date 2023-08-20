@@ -52,15 +52,31 @@
     width: 220px;
     height: 45px;
     font-size: 22px;
-    background-color: #17a2b8;
+    background-color: #bfd312;
     text-align: center;
     line-height: 45px;
     color: #f0faf3;
 }
 .Head .Add_Change .Change:hover {
-    background-color: #65ccdd;
+    background-color: #e0f74a;
     cursor: pointer;
 }
+.Head .Add_Change .Delete {
+    margin-left: 20px;
+    border-radius: 5px;
+    width: 220px;
+    height: 45px;
+    font-size: 22px;
+    background-color: #f75757;
+    text-align: center;
+    line-height: 45px;
+    color: #f0faf3;
+}
+
+    .Head .Add_Change .Delete:hover {
+        background-color: #f77373;
+        cursor: pointer;
+    }
 /*Table*/
 .Content table {
     width: calc(100% - 40px);
@@ -175,6 +191,7 @@ input {
     padding: 0px 0px 0px 3px;
     border: 1px solid #000;
     height: 25px;
+    width: 500px;
 }
     input:focus {
         border: 1px solid #007aff;
@@ -294,6 +311,6 @@ table tbody tr:hover{
     cursor: pointer;
 }
 
-.selected {
+.row-selected {
     background-color: #cdcdcd;
 }

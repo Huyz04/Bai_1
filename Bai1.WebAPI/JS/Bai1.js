@@ -15,9 +15,10 @@ class Products {
         $('#btnSave').click(this.btnSaveOnClick.bind(this));
         $('#btnCCancel').click(this.btnCCancelOnClick.bind(this));
         $('.change-title-icon').click(this.CiconOnClick.bind(this));
-        $('#btnCSave').click(this.btnSaveOnClick.bind(this));
+        $('#btnCSave').click(this.btnCSaveOnClick.bind(this));
         $("#txtID").blur(this.checkID.bind(this));
         $('.Change').click(this.ChangeOnClick.bind(this));
+        $('.Delete').click(this.DeleteOnClick.bind(this));
     }
     loadData() {
         // lay du lieu thong qua loi goi tu APi
@@ -51,11 +52,56 @@ class Products {
         $('#txtID').focus();
         $("input").val("");
     }
+    DeleteOnClick() {
+        var self = this;
+        var trSelected = $('tr.row-selected');
+        if (trSelected.length > 0) {
+            var CID = $(trSelected).children()[0].textContent;
+            // lay thong tin
+            $.ajax({
+                url: "/products/" + CID,
+                method: "DELETE"
+            }).done(function (res) {
+                debugger;
+                if (res) {
+                    self.loadData();
+                    alert("Xoa thanh cong");
+                } else { alert("Du lieu khong con tren he thong") }
+            }).fail(function () {
+                debugger;
+            })
+        } else {
+            alert('Vui lòng chọn product cần xóa !');
+        }
+    }
     ChangeOnClick() {
-        $('.dialog').show();
-        $('.dialog-change').show();
-        $('#txtID').focus();
-        $("input").val("");
+        var trSelected = $('tr.row-selected');
+        if (trSelected.length > 0) {
+            $('.dialog').show();
+            $('.dialog-change').show();
+            var CID = $(trSelected).children()[0].textContent;
+            // lay thong tin
+            $.ajax({
+                url: "/products/" + CID,
+                method:"GET"
+            }).done(function (res) {
+                if (!res) {
+                    alert('Khong co thong tin product nay');
+                } else {
+                    $("#txtCID").val(res["ID"]);
+                    $("#txtCCode").val(res["Code"]);
+                    $("#txtCName").val(res["Name"]);
+                    $("#txtCCategory").val(res["Category"]);
+                    $("#txtCBrand").val(res["Brand"]);
+                    $("#txtCType").val(res["Type"]);
+                    $("#txtCDescription").val(res["Description"]);
+                }
+            }).fail(function () {
+                debugger;
+            })
+        } else {
+            alert('Chọn dòng cần sửa !');
+        }
     }
     btnCancelOnClick() {
         $('.dialog').hide();
@@ -78,14 +124,14 @@ class Products {
         var tID = $("#txtID").val();
         if (!tID) {
             $("#txtID").addClass('error');
-            $("#txtID").attr("title","Thong tin bat buoc nhap");
+            $("#txtID").attr("title", "Thong tin bat buoc nhap");
         } else {
             $("#txtID").removeClass('error');
             $("#txtID").removeAttr("title");
         }
         //lay thong tin
         if (tID) {
-            var _product = {}; 
+            var _product = {};
             var self = this;
             _product.ID = $("#txtID").val();
             _product.Code = $("#txtCode").val();
@@ -93,7 +139,7 @@ class Products {
             _product.Category = $("#txtCategory").val();
             _product.Brand = $("#txtBrand").val();
             _product.Type = $("#txtType").val();
-            _product.Decription = $("#txtDecription").val();
+            _product.Description = $("#txtDescription").val();
             debugger;
 
             //luu du lieu vao database
@@ -108,15 +154,44 @@ class Products {
                 self.loadData();
                 $('.dialog').hide();
                 $('.dialog-add').hide();
+                alert("Them thanh cong")
             }).fail(function (res) {
                 debugger;
             })
-            //load lai du lieu
-
         }
 
     }
+    btnCSaveOnClick() {
+        //lay thong tin
+            var Cprd = {};
+            var self = this;
+            Cprd.ID = $("#txtCID").val();
+            Cprd.Code = $("#txtCCode").val();
+            Cprd.Name = $("#txtCName").val();
+            Cprd.Category = $("#txtCCategory").val();
+            Cprd.Brand = $("#txtCBrand").val();
+            Cprd.Type = $("#txtCType").val();
+            Cprd.Description = $("#txtCDescription").val();
+            debugger;
 
+            //luu du lieu vao database
+            /*data.push(_product);*/
+            $.ajax({
+                url: "/products/" + Cprd.ID,
+                method: "PUT",
+                data: JSON.stringify(Cprd),
+                contentType: "application/json",
+                dataType: "json"
+            }).done(function (res) {
+                debugger;
+                self.loadData();
+                $('.dialog').hide();
+                $('.dialog-change').hide();
+                alert("Sua thanh cong")
+            }).fail(function (res) {
+                debugger;
+            })
+    }
     checkID() {
         var tID = $("#txtID").val();
         if (!tID) {
@@ -128,18 +203,9 @@ class Products {
         }
     }
 }
-// Lấy tất cả các dòng trong bảng
-    const rows = document.querySelectorAll('#ptable tbody tr');
 
-  // Thêm sự kiện click cho từng dòng
-  rows.forEach(row => {
-        row.addEventListener('click', () => {
-            // Loại bỏ lớp 'selected' từ tất cả các dòng khác
-            rows.forEach(otherRow => {
-                if (otherRow !== row && otherRow.classList.contains('selected')) {
-                    otherRow.classList.remove('selected');
-                }
-            });
-            row.classList.add('selected')
-        });
-  });
+$(document).on('click', 'table#ptable tbody tr', function () {
+    $(this).siblings('.row-selected').removeClass('row-selected'); // phương thức siblings được jQuery cung cấp sẵn
+    // add class đánh dấu dòng hiện tại được chọn:
+    this.classList.add('row-selected');
+});
