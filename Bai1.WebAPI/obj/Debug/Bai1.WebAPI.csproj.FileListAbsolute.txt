@@ -65,3 +65,9 @@ D:\Web API\Bai1.WebAPI\Bai1.WebAPI\obj\Debug\Bai1.WebAPI.csproj.CoreCompileInput
 D:\Web API\Bai1.WebAPI\Bai1.WebAPI\obj\Debug\Bai1.WebAPI.csproj.CopyComplete
 D:\Web API\Bai1.WebAPI\Bai1.WebAPI\obj\Debug\Bai1.WebAPI.dll
 D:\Web API\Bai1.WebAPI\Bai1.WebAPI\obj\Debug\Bai1.WebAPI.pdb
+D:\Web API\Bai1.WebAPI\Bai1.WebAPI\bin\Bai1_BL.dll
+D:\Web API\Bai1.WebAPI\Bai1.WebAPI\bin\Bai1_Entity.dll
+D:\Web API\Bai1.WebAPI\Bai1.WebAPI\bin\Bai1_BL.pdb
+D:\Web API\Bai1.WebAPI\Bai1.WebAPI\bin\Bai1_Entity.pdb
+D:\Web API\Bai1.WebAPI\Bai1.WebAPI\bin\Bai1_DL.dll
+D:\Web API\Bai1.WebAPI\Bai1.WebAPI\bin\Bai1_DL.pdb

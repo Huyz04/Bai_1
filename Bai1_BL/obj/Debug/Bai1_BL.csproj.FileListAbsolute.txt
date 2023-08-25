@@ -1,0 +1,11 @@
+D:\Web API\Bai1.WebAPI\Bai1_BL\bin\Debug\Bai1_BL.dll
+D:\Web API\Bai1.WebAPI\Bai1_BL\bin\Debug\Bai1_BL.pdb
+D:\Web API\Bai1.WebAPI\Bai1_BL\bin\Debug\Bai1_DL.dll
+D:\Web API\Bai1.WebAPI\Bai1_BL\bin\Debug\Bai1_Entity.dll
+D:\Web API\Bai1.WebAPI\Bai1_BL\bin\Debug\Bai1_DL.pdb
+D:\Web API\Bai1.WebAPI\Bai1_BL\bin\Debug\Bai1_Entity.pdb
+D:\Web API\Bai1.WebAPI\Bai1_BL\obj\Debug\Bai1_BL.csproj.AssemblyReference.cache
+D:\Web API\Bai1.WebAPI\Bai1_BL\obj\Debug\Bai1_BL.csproj.CoreCompileInputs.cache
+D:\Web API\Bai1.WebAPI\Bai1_BL\obj\Debug\Bai1_BL.csproj.CopyComplete
+D:\Web API\Bai1.WebAPI\Bai1_BL\obj\Debug\Bai1_BL.dll
+D:\Web API\Bai1.WebAPI\Bai1_BL\obj\Debug\Bai1_BL.pdb

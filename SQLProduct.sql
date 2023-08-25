@@ -1,4 +1,4 @@
-CREATE DATABASE BAI1;
+﻿CREATE DATABASE BAI1;
 USE BAI1;
 
 
@@ -113,3 +113,26 @@ BEGIN
 	WHERE ID = @ID;
 END
 GO
+
+-- proc select all
+CREATE PROCEDURE Select_all_product
+AS
+BEGIN
+	SET NOCOUNT OFF;
+	SELECT * 
+	FROM product;
+END
+GO
+
+-- proc select dựa vào ID
+CREATE PROCEDURE Select_ID_product
+@ID INT
+AS
+BEGIN
+	SET NOCOUNT OFF;
+	SELECT * FROM product
+	WHERE ID = @ID;
+END
+GO
+
+exec Select_all_product;

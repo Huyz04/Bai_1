@@ -95,8 +95,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Bai1.cs" />
-    <Compile Include="Models\Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +102,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bai1_BL\Bai1_BL.csproj">
+      <Project>{bc3c77a4-60df-4dd4-a7e4-9a01db44d464}</Project>
+      <Name>Bai1_BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bai1_Entity\Bai1_Entity.csproj">
+      <Project>{9b082eab-b686-4c89-984c-935daa01d507}</Project>
+      <Name>Bai1_Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
