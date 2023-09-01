@@ -1,6 +1,0 @@
-D:\Web API\Bai1.WebAPI\Bai1_Entity\bin\Debug\Bai1_Entity.dll
-D:\Web API\Bai1.WebAPI\Bai1_Entity\bin\Debug\Bai1_Entity.pdb
-D:\Web API\Bai1.WebAPI\Bai1_Entity\obj\Debug\Bai1_Entity.csproj.AssemblyReference.cache
-D:\Web API\Bai1.WebAPI\Bai1_Entity\obj\Debug\Bai1_Entity.csproj.CoreCompileInputs.cache
-D:\Web API\Bai1.WebAPI\Bai1_Entity\obj\Debug\Bai1_Entity.dll
-D:\Web API\Bai1.WebAPI\Bai1_Entity\obj\Debug\Bai1_Entity.pdb
