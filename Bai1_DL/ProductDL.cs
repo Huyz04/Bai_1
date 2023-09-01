@@ -1,4 +1,4 @@
-﻿using Bai1_Entity;
+﻿using Bai1.WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

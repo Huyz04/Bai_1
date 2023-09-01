@@ -45,11 +45,5 @@
     <Compile Include="DbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Bai1_Entity\Bai1_Entity.csproj">
-      <Project>{9b082eab-b686-4c89-984c-935daa01d507}</Project>
-      <Name>Bai1_Entity</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

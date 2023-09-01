@@ -6,8 +6,9 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using Bai1_BL;
-using Bai1_Entity;
+using Bai1.WebAPI.Models;
+using Bai1.WebAPI.Provider;
+using System.CodeDom;
 
 namespace Bai1.WebAPI.Controllers
 {
@@ -20,15 +21,13 @@ namespace Bai1.WebAPI.Controllers
         {
             try
             {
-                var productBL = new ProductBL();
-                return productBL.GetProducts();
+                var m  = new mainn();
+                return m.GetProducts();
             }
             catch (Exception)
             {
-
                 throw;
             }
-            
         }
 
         // GET: api/Bai1/5
@@ -37,12 +36,11 @@ namespace Bai1.WebAPI.Controllers
         {
             try
             {
-                var productBL = new ProductBL();
-                return productBL.GetProducts(product_id);
+                var m = new mainn();
+                return m.GetProducts(product_id);
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -53,12 +51,11 @@ namespace Bai1.WebAPI.Controllers
         {
             try
             {
-                var productBL = new ProductBL();
-                return productBL.UpdateProducts(prd);
+                var m = new mainn();
+                return m.InsertProducts(prd);
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -69,12 +66,11 @@ namespace Bai1.WebAPI.Controllers
         {
             try
             {
-                var productBL = new ProductBL();
-                return productBL.UpdateProducts(product_id, prd);
+                var m = new mainn();
+                return m.UpdateProducts(product_id, prd);
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -85,12 +81,11 @@ namespace Bai1.WebAPI.Controllers
         {
             try
             {
-                var productBL = new ProductBL();
-                return productBL.DeleteProducts(product_id);
+                var m = new mainn();
+                return m.DeleteProducts(product_id);
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

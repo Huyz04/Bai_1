@@ -1,4 +1,4 @@
-﻿using Bai1_Entity;
+﻿using Bai1.WebAPI.Models;
 using Bai1_DL;
 using System;
 using System.Collections.Generic;
