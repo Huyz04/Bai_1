@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using Bai1.WebAPI.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Bai1.WebAPI.Provider
 {
@@ -31,8 +33,56 @@ namespace Bai1.WebAPI.Provider
         {
             //khai bao cau truy van
             sqlCommand.CommandText = "Select_ID_product";
-            //Gan gia tri cho cac bien 
+            //Gan gia tri cho cac bien  
             sqlCommand.Parameters.AddWithValue("@ID", product_id);
+            return this.excute();
+        }
+        public IEnumerable<Product> FindProducts(string product_info, string product_type)
+        {
+            if (product_type == "Name")
+            {
+                //khai bao cau truy van
+                sqlCommand.CommandText = "Find_Product_Name";
+                //Gan gia tri cho cac bien  
+                sqlCommand.Parameters.AddWithValue("@Name", product_info);
+                return this.excute();
+            }
+            else if (product_type == "Brand")
+            {
+                //khai bao cau truy van
+                sqlCommand.CommandText = "Find_Product_Brand";
+                //Gan gia tri cho cac bien  
+                sqlCommand.Parameters.AddWithValue("@Brand", product_info);
+                return this.excute();
+            } 
+            else
+            {
+                return null;
+            }
+        }
+        public int GetTotal()
+        {
+            //khai bao cau truy van
+            sqlCommand.CommandText = "Total";
+            //Mo ket noi
+            sqlConnection.Open();
+            // Thuc thi cong viec voi database
+            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+            int total = 0;
+
+            if (sqlDataReader.Read())
+            {
+                total = (int)sqlDataReader["TOTAL"];
+            }
+            return total;
+        }
+        public IEnumerable<Product> GetPage(int Ignore, int Size)
+        {
+            //khai bao cau truy van
+            sqlCommand.CommandText = "Paging";
+            //Gan gia tri cho cac bien  
+            sqlCommand.Parameters.AddWithValue("@Ignore", Ignore);
+            sqlCommand.Parameters.AddWithValue("@Size", Size);
             return this.excute();
         }
         public int InsertProducts(Product prd)

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Bai1.WebAPI.Models;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Bai1.WebAPI.Provider
 {
+
     public class mainn
     {
         public IEnumerable<Product> GetProducts()
@@ -20,6 +22,28 @@ namespace Bai1.WebAPI.Provider
             using (Providers dbContext = new Providers())
             {
                 return dbContext.GetProducts(product_id).FirstOrDefault();
+            }
+        }
+        public int GetTotal()
+        {
+            using (Providers dbContext = new Providers())
+            {
+                return dbContext.GetTotal();
+            }
+        }
+        public IEnumerable<Product> FindProducts(string product_info, string product_type)
+        {
+            using (Providers dbContext = new Providers()) 
+            {
+                return dbContext.FindProducts(product_info,product_type);
+            }
+        }
+        // Paging
+        public IEnumerable<Product> GetPage(int Ignore, int Size)
+        {
+            using (Providers dbContext = new Providers())
+            {
+                return dbContext.GetPage(Ignore, Size);
             }
         }
         //Posst

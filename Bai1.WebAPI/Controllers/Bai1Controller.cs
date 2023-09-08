@@ -9,6 +9,8 @@ using System.Diagnostics;
 using Bai1.WebAPI.Models;
 using Bai1.WebAPI.Provider;
 using System.CodeDom;
+using Microsoft.EntityFrameworkCore;
+using System.Web.Configuration;
 
 namespace Bai1.WebAPI.Controllers
 {
@@ -38,6 +40,48 @@ namespace Bai1.WebAPI.Controllers
             {
                 var m = new mainn();
                 return m.GetProducts(product_id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        // GET total
+        [Route("total")]
+        public int GetTotal()
+        {
+            try
+            {
+                var m = new mainn();
+                return m.GetTotal();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        // GET: api/Bai1/Name/Namee
+        [Route("{product_info}/{product_type}")]
+        public IEnumerable<Product> GetFind(string product_info, string product_type)
+        {
+            try
+            {
+                var m = new mainn();
+                return m.FindProducts(product_info, product_type) ;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        // GET : phan trang
+        [Route("Page/{ignore}/{size}")]
+        public IEnumerable<Product> GetPage(int ignore, int size )
+        {
+            try
+            {
+                var m = new mainn();
+                return m.GetPage(ignore, size);
             }
             catch (Exception)
             {
@@ -89,5 +133,6 @@ namespace Bai1.WebAPI.Controllers
                 throw;
             }
         }
+
     }
 }

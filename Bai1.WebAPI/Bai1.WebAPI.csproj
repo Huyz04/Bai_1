@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\img\cross.png" />
+    <Content Include="Content\img\search.png" />
     <Content Include="Content\img\zoom-in.png" />
     <Content Include="CSS\Page\Bai1.css" />
     <Content Include="Global.asax" />

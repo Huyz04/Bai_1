@@ -136,3 +136,30 @@ END
 GO
 
 exec Select_all_product;
+
+-- proc select dựa vào Name
+CREATE PROCEDURE Find_Product_Name
+@Name VARCHAR(90)
+AS
+BEGIN
+	SET NOCOUNT OFF;
+	SELECT * FROM product
+	WHERE Name LIKE '%'+@Name+'%';
+END
+GO
+
+-- Proc select dựa vào Brand
+CREATE or alter PROCEDURE Find_Product_Brand
+@Brand VARCHAR(28)
+AS
+BEGIN
+	SET NOCOUNT OFF;
+	SELECT * FROM product
+	WHERE Brand LIKE '%'+@Brand+'%';
+END
+GO
+
+execute Find_Product_Brand @Brand = 'Samsung';
+
+SELECT * FROM product
+	WHERE Name LIKE '%%';

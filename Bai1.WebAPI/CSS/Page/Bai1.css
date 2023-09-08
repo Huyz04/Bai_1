@@ -73,20 +73,64 @@
     color: #f0faf3;
 }
 
-    .Head .Add_Change .Delete:hover {
+.Head .Add_Change .Delete:hover {
         background-color: #f77373;
         cursor: pointer;
     }
-/*Table*/
-.Content table {
-    width: calc(100% - 40px);
-    border-collapse: collapse;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
+.Head .Add_Change .Find {
+    margin-left: 20px;
+    border-radius: 5px;
+    width: 700px;
+    height: 45px;
+    font-size: 22px;
+    background-color: #868181;
+    display: flex;
+    line-height: 45px;
+    color: #f0faf3;
 }
+    .Head .Add_Change .Find #txt-Find {
+        height: 31px;
+        width: 430px;
+        margin-left: 15px;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        font-size: 20px;
+    }
+    .Head .Add_Change .Find #BtnFind{
+        display: flex;
+    }
+        .Head .Add_Change .Find #BtnFind #BtnFind-icon {
+            background-image: url('../../content/img/search.png');
+            background-repeat: no-repeat;
+            background-size: 70%;
+            background-position: center;
+            height: 45px;
+            width: 45px;
+            margin-right: 5px;
+        }
+    .Head .Add_Change .Find #BtnFind:hover {
+        font-size: 24px;
+        cursor: pointer;
+    }
+    .Head .Add_Change .Find #Menu {
+        height: 31px;
+        width: 100px;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        font-size: 20px;
+    }
+    /*Table*/
+    .Content table {
+        width: calc(100% - 40px);
+        border-collapse: collapse;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+    }
 table th{
     text-align: left;
     padding: 8px;
@@ -105,38 +149,48 @@ table td{
     align-items: center;
     width: 100%;
     height: 30px;
-    font-size:20px;
-}
-    .func .funcs {
-        display: inline-block;
-        width: fit-content;
-        height: fit-content;
-        margin: 5px;
-        position: relative;
-    }
-    
-    .func .funcL {
-        display: inline-block;
-        width: fit-content;
-        height: fit-content;
-        margin: 5px;
-    }
-    .func .funcs:hover{
-        cursor: pointer;
-    }
-    .func .funcL:hover {
-        cursor: pointer;
-    }
-    .funcs::after {
-        content: "|"; /* Thêm dấu gạch đứng vào cuối mỗi div */
-        position: absolute;
-        top: 45%; /* Đặt vị trí theo chiều dọc ở giữa */
-        right: -10px; /* Đặt khoảng cách giữa dấu gạch đứng và text (tùy chỉnh theo mong muốn) */
-        transform: translateY(-50%); /* Dịch chuyển lên trên 50% để căn giữa theo chiều dọc */
-    }
-.mau {
+    font-size: 20px;
     color: #007aff;
 }
+.func #First {
+    margin-right: 10px;
+}
+.func #Previous {
+        margin-right: 10px;
+}
+.func #Current {
+        margin-right: 10px;
+}
+.func #Next {
+        margin-right: 10px;
+}
+.func #Last {
+        margin-right: 10px;
+}
+    .func #First:hover {
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .func #Previous:hover {
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .func #Current:hover {
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .func #Next:hover {
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .func #Last:hover {
+        font-size: 22px;
+        cursor: pointer;
+    }
 
 .dialog {
     display: none;
@@ -200,6 +254,7 @@ input {
 
 .row {
     margin-bottom: 20px;
+    height: 50px;
 }
 label {
     display: block;
@@ -269,26 +324,6 @@ button#btnCancel {
     .dialog-change .change-body {
         padding: 10px;
     }
-
-input {
-    padding: 0px 0px 0px 3px;
-    border: 1px solid #000;
-    height: 25px;
-}
-
-    input:focus {
-        border: 1px solid #007aff;
-        outline: none;
-    }
-
-.row {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-}
-
 .dialog-change .change-footer {
     width: 100%;
     height: 60px;

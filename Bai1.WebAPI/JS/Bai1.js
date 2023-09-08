@@ -1,4 +1,5 @@
-﻿
+﻿var currentpage = 1;
+var totalpage = 0;
 $(document).ready(function () {
     var PRC = new Products();
 
@@ -6,6 +7,7 @@ $(document).ready(function () {
 class Products {
     constructor() {
         this.loadData();
+        this.loadTotal();
         this.initEnvents();
     }
     initEnvents() {
@@ -19,15 +21,82 @@ class Products {
         $("#txtID").blur(this.checkID.bind(this));
         $('.Change').click(this.ChangeOnClick.bind(this));
         $('.Delete').click(this.DeleteOnClick.bind(this));
+        $('#BtnFind').click(this.FindOnClick.bind(this));
+        $('#First').click(this.FirstOnClick).bind(this);
+        $('#Previous').click(this.PreviousOnClick).bind(this);
+        $('#Current').click(this.CurrentOnClick).bind(this);
+        $('#Next').click(this.NextOnClick).bind(this);
+        $('#Last').click(this.LastOnClick).bind(this);
+
     }
-    loadData() {
-        // lay du lieu thong qua loi goi tu APi
+    loadTotal() {
         $.ajax({
-            url: "/products/all",
+            url: "/products/total",
             method: "GET",
             data: "", // tham so truyen vao qua body 
             contentType: "",
             dataType: ""
+        }).done(function (response) {
+            totalpage = Math.ceil(response/5);
+            debugger;
+        }).fail(function(response) {
+        debugger;
+    })
+    }
+    loadData() {
+        // lay du lieu thong qua loi goi tu APi
+        $.ajax({
+            url: "/products/Page/0/5",
+            method: "GET",
+            data: "", // tham so truyen vao qua body 
+            contentType: "",
+            dataType: ""
+        }).done(function (response) {
+            $('.Content tbody').empty();
+            $.each(response, function (index, item) {
+                var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                $('.Content tbody').append(trHTML);
+            })
+        }).fail(function (response) {
+            debugger;
+        })
+    }
+    Find_Name(Fprd_find) {
+        // lay du lieu thong qua loi goi tu APi
+        $.ajax({
+            url: "/products/" + Fprd_find + "/Name",
+            method: "GET"
+        }).done(function (response) {
+            $('.Content tbody').empty();
+            $.each(response, function (index, item) {
+                var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                $('.Content tbody').append(trHTML);
+            })
+        }).fail(function (response) {
+            debugger;
+        })
+    }
+    Find_Brand(Fprd_find) {
+        // lay du lieu thong qua loi goi tu APi
+        $.ajax({
+            url: "/products/" + Fprd_find + "/Brand",
+            method: "GET"
         }).done(function (response) {
             $('.Content tbody').empty();
             $.each(response, function (index, item) {
@@ -119,6 +188,119 @@ class Products {
         $('.dialog').hide();
         $('.dialog-change').hide();
     }
+    FirstOnClick() {
+        $.ajax({
+            url: "/products/Page/0/5",
+            method: "GET",
+            data: "", // tham so truyen vao qua body 
+            contentType: "",
+            dataType: ""
+        }).done(function (response) {
+            $('.Content tbody').empty();
+            $.each(response, function (index, item) {
+                var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                $('.Content tbody').append(trHTML);
+            })
+        }).fail(function (response) {
+            debugger;
+        })
+    }
+    PreviousOnClick() {
+        if (currentpage != 1) {
+            currentpage = currentpage - 1;
+            var ignore = (currentpage - 1) * 5;
+            $.ajax({
+                url: "/products/Page/" + ignore + "/5",
+                method: "GET",
+                data: "", // tham so truyen vao qua body 
+                contentType: "",
+                dataType: ""
+            }).done(function (response) {
+                $('.Content tbody').empty();
+                $.each(response, function (index, item) {
+                    var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                    $('.Content tbody').append(trHTML);
+                })
+            }).fail(function (response) {
+                debugger;
+            })
+        }
+    }
+    CurrentOnClick() {
+        alert("Đang ở Page" + currentpage);
+    }
+    NextOnClick() {
+        if (currentpage < totalpage) {
+            currentpage = currentpage + 1;
+            var ignore = (currentpage - 1) * 5;
+            $.ajax({
+                url: "/products/Page/" + ignore + "/5",
+                method: "GET",
+                data: "", // tham so truyen vao qua body 
+                contentType: "",
+                dataType: ""
+            }).done(function (response) {
+                $('.Content tbody').empty();
+                $.each(response, function (index, item) {
+                    var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                    $('.Content tbody').append(trHTML);
+                })
+            }).fail(function (response) {
+                debugger;
+            })
+        }
+    }
+    LastOnClick() {
+        currentpage = totalpage;
+        var ignore = (currentpage - 1) * 5;
+        $.ajax({
+            url: "/products/Page/" + ignore + "/5",
+            method: "GET",
+            data: "", // tham so truyen vao qua body 
+            contentType: "",
+            dataType: ""
+        }).done(function (response) {
+            $('.Content tbody').empty();
+            $.each(response, function (index, item) {
+                var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                $('.Content tbody').append(trHTML);
+            })
+        }).fail(function (response) {
+            debugger;
+        })
+    }
     btnSaveOnClick() {
         //kiem tra du lieu nhap tren form
         var tID = $("#txtID").val();
@@ -192,6 +374,26 @@ class Products {
                 debugger;
             })
     }
+    FindOnClick() {
+        //lay thong tin tim kiem
+        var Fprd_find = $("#txt-Find").val();
+        var self = this;
+        // tim kiem API
+        if (Fprd_find != '') {
+            if ($("#Menu").val() == "Name") {
+                self.Find_Name(Fprd_find);
+            }
+            else if ($("#Menu").val() == "Brand") {
+                self.Find_Brand(Fprd_find);
+            }
+            else {
+                alert("NONE");
+            }
+        }
+        else {
+            self.loadData();
+        }
+    }
     checkID() {
         var tID = $("#txtID").val();
         if (!tID) {
@@ -203,7 +405,6 @@ class Products {
         }
     }
 }
-
 $(document).on('click', 'table#ptable tbody tr', function () {
     $(this).siblings('.row-selected').removeClass('row-selected'); // phương thức siblings được jQuery cung cấp sẵn
     // add class đánh dấu dòng hiện tại được chọn:
