@@ -161,5 +161,39 @@ GO
 
 execute Find_Product_Brand @Brand = 'Samsung';
 
-SELECT * FROM product
-	WHERE Name LIKE '%%';
+----------------
+
+-- Proc phân trang
+CREATE or alter PROCEDURE Paging
+@Ignore INT,
+@Size INT
+AS
+BEGIN
+	SELECT *
+	FROM product
+	ORDER BY ID
+	OFFSET @Ignore ROWS
+	FETCH NEXT @Size ROWS ONLY;
+END
+GO
+
+EXECUTE Paging @Ignore = 13, @Size =5;
+------
+SELECT *
+FROM product
+ORDER BY ID
+OFFSET 5 ROWS
+FETCH NEXT 3 ROWS ONLY;
+
+SELECT COUNT(*) AS TOTAL FROM product;
+
+CREATE or alter PROCEDURE Total
+AS
+BEGIN
+	SELECT COUNT(*) AS TOTAL FROM product;
+END
+GO
+
+EXECUTE Total;
+
+
