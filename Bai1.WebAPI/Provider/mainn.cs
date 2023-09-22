@@ -10,11 +10,11 @@ namespace Bai1.WebAPI.Provider
 
     public class mainn
     {
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<Product> GetProducts(int Page, int PageSize)
         {
             using (Providers dbContext = new Providers())
             {
-                return dbContext.GetProducts();
+                return dbContext.GetProducts(Page, PageSize);
             }
         }
         public Product GetProducts(int product_id)
@@ -24,18 +24,21 @@ namespace Bai1.WebAPI.Provider
                 return dbContext.GetProducts(product_id).FirstOrDefault();
             }
         }
-        public int GetTotal()
+        public int GetTotal(string info, string type)
         {
             using (Providers dbContext = new Providers())
             {
-                return dbContext.GetTotal();
+                if (info == null && type == null) 
+                    return dbContext.GetTotal("", "");
+                else
+                return dbContext.GetTotal(info, type);
             }
         }
-        public IEnumerable<Product> FindProducts(string product_info, string product_type)
+        public IEnumerable<Product> FindProducts(string product_info, string product_type, int Page, int PageSize)
         {
             using (Providers dbContext = new Providers()) 
             {
-                return dbContext.FindProducts(product_info,product_type);
+                return dbContext.FindProducts(product_info,product_type, Page, PageSize);
             }
         }
         // Paging

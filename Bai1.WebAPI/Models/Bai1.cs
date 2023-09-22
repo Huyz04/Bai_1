@@ -24,4 +24,12 @@ namespace Bai1.WebAPI.Models
         public string Type { get; set; }
         public string Description { get; set; }   
     }
+    public class Res
+    {
+        public string Response { get; set; }
+        public IEnumerable<Product> Data { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int Total { get; set; }
+    }
 }

@@ -12,6 +12,7 @@ using System.CodeDom;
 using Microsoft.EntityFrameworkCore;
 using System.Web.Configuration;
 
+
 namespace Bai1.WebAPI.Controllers
 {
     [RoutePrefix("products")]
@@ -19,12 +20,12 @@ namespace Bai1.WebAPI.Controllers
     {
         // GET: api/Bai1
         [Route("all")]
-        public IEnumerable<Product> Get()
+        public IEnumerable<Product> Get([FromUri] int Page, [FromUri] int PageSize )
         {
             try
             {
                 var m  = new mainn();
-                return m.GetProducts();
+                return m.GetProducts(Page,PageSize);
             }
             catch (Exception)
             {
@@ -46,42 +47,56 @@ namespace Bai1.WebAPI.Controllers
                 throw;
             }
         }
+        //GET TEST
+
+        [Route("test")]
+        public IHttpActionResult GetTest()
+        {
+            var productss = new Product[]
+            {
+                new Product() { ID = 1, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
+                new Product() { ID = 2, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
+                new Product() { ID = 3, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
+                new Product() { ID = 4, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
+                new Product() { ID = 5, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
+                new Product() { ID = 6, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" }
+            };
+            Res m = new Res
+            {
+                Response = "Success",
+                Data = productss,
+                Page = 1,
+                PageSize = 5,
+                Total = productss.Length
+            };
+
+            return Ok(m);
+        }
+
         // GET total
         [Route("total")]
-        public int GetTotal()
+        public int GetTotal([FromUri] string info, [FromUri] string type)
         {
             try
             {
                 var m = new mainn();
-                return m.GetTotal();
+                return m.GetTotal(info, type);
             }
-            catch (Exception)
+            catch (Exception)     
             {
                 throw;
             }
+
         }
+
         // GET: api/Bai1/Name/Namee
-        [Route("{product_info}/{product_type}")]
-        public IEnumerable<Product> GetFind(string product_info, string product_type)
+        [Route("find")]
+        public IEnumerable<Product> GetFind([FromUri] string product_info, [FromUri] string product_type, [FromUri] int Page, [FromUri] int PageSize)
         {
             try
             {
                 var m = new mainn();
-                return m.FindProducts(product_info, product_type) ;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        // GET : phan trang
-        [Route("Page/{ignore}/{size}")]
-        public IEnumerable<Product> GetPage(int ignore, int size )
-        {
-            try
-            {
-                var m = new mainn();
-                return m.GetPage(ignore, size);
+                return m.FindProducts(product_info, product_type, Page, PageSize) ;
             }
             catch (Exception)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using Bai1.WebAPI.Models;
@@ -22,11 +23,12 @@ namespace Bai1.WebAPI.Provider
             sqlCommand = sqlConnection.CreateCommand();
             sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
         }
-
-        public IEnumerable<Product> GetProducts() 
+        public IEnumerable<Product> GetProducts(int Page, int PageSize) 
         {
             //khai bao cau truy van
             sqlCommand.CommandText = "Select_all_product";
+            sqlCommand.Parameters.AddWithValue("@Page", Page);
+            sqlCommand.Parameters.AddWithValue("@PageSize", PageSize);
             return this.excute();
         }
         public  IEnumerable<Product> GetProducts(int product_id)
@@ -37,33 +39,24 @@ namespace Bai1.WebAPI.Provider
             sqlCommand.Parameters.AddWithValue("@ID", product_id);
             return this.excute();
         }
-        public IEnumerable<Product> FindProducts(string product_info, string product_type)
+        public IEnumerable<Product> FindProducts(string product_info, string product_type, int Page, int PageSize)
         {
-            if (product_type == "Name")
-            {
                 //khai bao cau truy van
-                sqlCommand.CommandText = "Find_Product_Name";
+                sqlCommand.CommandText = "Find_Product";
                 //Gan gia tri cho cac bien  
-                sqlCommand.Parameters.AddWithValue("@Name", product_info);
-                return this.excute();
-            }
-            else if (product_type == "Brand")
-            {
-                //khai bao cau truy van
-                sqlCommand.CommandText = "Find_Product_Brand";
-                //Gan gia tri cho cac bien  
-                sqlCommand.Parameters.AddWithValue("@Brand", product_info);
-                return this.excute();
-            } 
-            else
-            {
-                return null;
-            }
+                sqlCommand.Parameters.AddWithValue("@Info", product_info);
+                sqlCommand.Parameters.AddWithValue("@Type", product_type);
+                sqlCommand.Parameters.AddWithValue("@Page", Page);
+                sqlCommand.Parameters.AddWithValue("@PageSize", PageSize);
+            return this.excute();
         }
-        public int GetTotal()
+        public int GetTotal(string info, string type)
         {
             //khai bao cau truy van
             sqlCommand.CommandText = "Total";
+            //Gan gia tri cho cac bien
+            sqlCommand.Parameters.AddWithValue("@info", info);
+            sqlCommand.Parameters.AddWithValue("@type", type);
             //Mo ket noi
             sqlConnection.Open();
             // Thuc thi cong viec voi database

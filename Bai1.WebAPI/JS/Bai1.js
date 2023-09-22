@@ -1,13 +1,13 @@
-﻿var currentpage = 1;
-var totalpage = 0;
+﻿var Page = 1;
+var PageSize = 5;
+var TotalPage = 0;
 $(document).ready(function () {
     var PRC = new Products();
-
 })
 class Products {
     constructor() {
-        this.loadData();
         this.loadTotal();
+        this.loadData();
         this.initEnvents();
     }
     initEnvents() {
@@ -22,31 +22,42 @@ class Products {
         $('.Change').click(this.ChangeOnClick.bind(this));
         $('.Delete').click(this.DeleteOnClick.bind(this));
         $('#BtnFind').click(this.FindOnClick.bind(this));
-        $('#First').click(this.FirstOnClick).bind(this);
-        $('#Previous').click(this.PreviousOnClick).bind(this);
-        $('#Current').click(this.CurrentOnClick).bind(this);
-        $('#Next').click(this.NextOnClick).bind(this);
-        $('#Last').click(this.LastOnClick).bind(this);
-
+        $('#First').click(this.FirstOnClick.bind(this));
+        $('#Previous').click(this.PreviousOnClick.bind(this));
+        $('#Current').click(this.CurrentOnClick.bind(this));
+        $('#Next').click(this.NextOnClick.bind(this));
+        $('#Last').click(this.LastOnClick.bind(this));
     }
     loadTotal() {
         $.ajax({
-            url: "/products/total",
+            url: "/products/total?info=&type=",
             method: "GET",
             data: "", // tham so truyen vao qua body 
             contentType: "",
             dataType: ""
         }).done(function (response) {
-            totalpage = Math.ceil(response/5);
-            debugger;
+            TotalPage = Math.ceil(response/PageSize);
         }).fail(function(response) {
         debugger;
     })
     }
+    loadTotalFind(info, type) {
+        $.ajax({
+            url: "/products/total?info="+info+"&type="+type,
+            method: "GET",
+            data: "", // tham so truyen vao qua body 
+            contentType: "",
+            dataType: ""
+        }).done(function (response) {
+            TotalPage = Math.ceil(response / PageSize);
+        }).fail(function (response) {
+            debugger;
+        })
+    }
     loadData() {
         // lay du lieu thong qua loi goi tu APi
         $.ajax({
-            url: "/products/Page/0/5",
+            url: "/products/all?Page=1&PageSize=5",
             method: "GET",
             data: "", // tham so truyen vao qua body 
             contentType: "",
@@ -65,14 +76,15 @@ class Products {
                     </tr>`);
                 $('.Content tbody').append(trHTML);
             })
+            Page = 1;
         }).fail(function (response) {
             debugger;
         })
     }
-    Find_Name(Fprd_find) {
+    Find(info, type, Page, PageSize) {
         // lay du lieu thong qua loi goi tu APi
         $.ajax({
-            url: "/products/" + Fprd_find + "/Name",
+            url: "/products/find?product_info=" + info + "&product_type=" + type + "&Page=" + Page + "&PageSize=" + PageSize,
             method: "GET"
         }).done(function (response) {
             $('.Content tbody').empty();
@@ -92,28 +104,21 @@ class Products {
             debugger;
         })
     }
-    Find_Brand(Fprd_find) {
-        // lay du lieu thong qua loi goi tu APi
-        $.ajax({
-            url: "/products/" + Fprd_find + "/Brand",
-            method: "GET"
-        }).done(function (response) {
-            $('.Content tbody').empty();
-            $.each(response, function (index, item) {
-                var trHTML = $(` <tr class="row">
-                        <td>`+ item.ID + `</td>
-                        <td>`+ item.Code + `</td>
-                        <td>`+ item.Name + `</td>
-                        <td>`+ item.Category + `</td>
-                        <td>`+ item.Brand + `</td>
-                        <td>`+ item.Type + `</td>
-                        <td>`+ item.Description + `</td>
-                    </tr>`);
-                $('.Content tbody').append(trHTML);
-            })
-        }).fail(function (response) {
-            debugger;
-        })
+    FindOnClick() {
+        //lay thong tin tim kiem
+        var info = $("#txt-Find").val();
+        var type = $("#Menu").val();
+        var self = this;
+        // tim kiem API
+        if (info != '') {
+            self.Find(info, type, 1, 5);
+            Page = 1;
+            self.loadTotalFind(info, type);
+        }
+        else {
+            self.loadData();
+            self.loadTotal();
+        }
     }
     AddOnClick() {
         $('.dialog').show();
@@ -131,7 +136,6 @@ class Products {
                 url: "/products/" + CID,
                 method: "DELETE"
             }).done(function (res) {
-                debugger;
                 if (res) {
                     self.loadData();
                     alert("Xoa thanh cong");
@@ -189,36 +193,16 @@ class Products {
         $('.dialog-change').hide();
     }
     FirstOnClick() {
-        $.ajax({
-            url: "/products/Page/0/5",
-            method: "GET",
-            data: "", // tham so truyen vao qua body 
-            contentType: "",
-            dataType: ""
-        }).done(function (response) {
-            $('.Content tbody').empty();
-            $.each(response, function (index, item) {
-                var trHTML = $(` <tr class="row">
-                        <td>`+ item.ID + `</td>
-                        <td>`+ item.Code + `</td>
-                        <td>`+ item.Name + `</td>
-                        <td>`+ item.Category + `</td>
-                        <td>`+ item.Brand + `</td>
-                        <td>`+ item.Type + `</td>
-                        <td>`+ item.Description + `</td>
-                    </tr>`);
-                $('.Content tbody').append(trHTML);
-            })
-        }).fail(function (response) {
-            debugger;
-        })
-    }
-    PreviousOnClick() {
-        if (currentpage != 1) {
-            currentpage = currentpage - 1;
-            var ignore = (currentpage - 1) * 5;
+        var info = $("#txt-Find").val();
+        var type = $("#Menu").val();
+        var self = this;
+        if (info != '') {
+            self.Find(info, type, 1, 5);
+            Page = 1;
+        }
+        else {
             $.ajax({
-                url: "/products/Page/" + ignore + "/5",
+                url: "/products/all?Page=1&PageSize=5",
                 method: "GET",
                 data: "", // tham so truyen vao qua body 
                 contentType: "",
@@ -237,20 +221,101 @@ class Products {
                     </tr>`);
                     $('.Content tbody').append(trHTML);
                 })
+                Page = 1;
             }).fail(function (response) {
                 debugger;
-            })
+            })  
+        }
+    }
+    PreviousOnClick() {
+        var self = this;
+        var info = $("#txt-Find").val();
+        var type = $("#Menu").val();
+        if (Page > 1) {
+            Page = Page - 1;
+            if (info != '') {
+                self.Find(info, type, Page, PageSize);
+            }
+            else {
+                $.ajax({
+                    url: "/products/all?Page=" + Page + "&PageSize=" + PageSize,
+                    method: "GET",
+                    data: "", // tham so truyen vao qua body 
+                    contentType: "",
+                    dataType: ""
+                }).done(function (response) {
+                    $('.Content tbody').empty();
+                    $.each(response, function (index, item) {
+                        var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                        $('.Content tbody').append(trHTML);
+                    })
+                }).fail(function (response) {
+                    debugger;
+                })
+            }
         }
     }
     CurrentOnClick() {
-        alert("Đang ở Page" + currentpage);
+        alert("Đang ở Page " + Page);
     }
     NextOnClick() {
-        if (currentpage < totalpage) {
-            currentpage = currentpage + 1;
-            var ignore = (currentpage - 1) * 5;
+        if (Page < TotalPage) {
+            var info = $("#txt-Find").val();
+            var type = $("#Menu").val();
+            var self = this;
+            Page = Page + 1;
+            if (info != '') {
+                self.Find(info, type, Page, PageSize);
+            }
+            else { 
+                $.ajax({
+                    url: "/products/all?Page=" + Page + "&PageSize=" + PageSize,
+                    method: "GET",
+                    data: "", // tham so truyen vao qua body 
+                    contentType: "",
+                    dataType: ""
+                }).done(function (response) {
+                    $('.Content tbody').empty();
+                    $.each(response, function (index, item) {
+                        var trHTML = $(` <tr class="row">
+                        <td>`+ item.ID + `</td>
+                        <td>`+ item.Code + `</td>
+                        <td>`+ item.Name + `</td>
+                        <td>`+ item.Category + `</td>
+                        <td>`+ item.Brand + `</td>
+                        <td>`+ item.Type + `</td>
+                        <td>`+ item.Description + `</td>
+                    </tr>`);
+                        $('.Content tbody').append(trHTML);
+                    })
+                }).fail(function (response) {
+                    debugger;
+                })
+            }
+        }
+    }
+    LastOnClick() {
+        var info = $("#txt-Find").val();
+        var type = $("#Menu").val();
+        var self = this;
+        if (info != '') {
+            self.loadTotalFind(info, type);
+            self.Find(info, type, TotalPage, 5);
+            Page = TotalPage;
+        }
+        else {
+            self.loadTotal();
+            Page = TotalPage;
             $.ajax({
-                url: "/products/Page/" + ignore + "/5",
+                url: "/products/all?Page="+Page+"&PageSize=5",
                 method: "GET",
                 data: "", // tham so truyen vao qua body 
                 contentType: "",
@@ -273,33 +338,6 @@ class Products {
                 debugger;
             })
         }
-    }
-    LastOnClick() {
-        currentpage = totalpage;
-        var ignore = (currentpage - 1) * 5;
-        $.ajax({
-            url: "/products/Page/" + ignore + "/5",
-            method: "GET",
-            data: "", // tham so truyen vao qua body 
-            contentType: "",
-            dataType: ""
-        }).done(function (response) {
-            $('.Content tbody').empty();
-            $.each(response, function (index, item) {
-                var trHTML = $(` <tr class="row">
-                        <td>`+ item.ID + `</td>
-                        <td>`+ item.Code + `</td>
-                        <td>`+ item.Name + `</td>
-                        <td>`+ item.Category + `</td>
-                        <td>`+ item.Brand + `</td>
-                        <td>`+ item.Type + `</td>
-                        <td>`+ item.Description + `</td>
-                    </tr>`);
-                $('.Content tbody').append(trHTML);
-            })
-        }).fail(function (response) {
-            debugger;
-        })
     }
     btnSaveOnClick() {
         //kiem tra du lieu nhap tren form
@@ -322,8 +360,6 @@ class Products {
             _product.Brand = $("#txtBrand").val();
             _product.Type = $("#txtType").val();
             _product.Description = $("#txtDescription").val();
-            debugger;
-
             //luu du lieu vao database
             /*data.push(_product);*/
             $.ajax({
@@ -354,7 +390,6 @@ class Products {
             Cprd.Brand = $("#txtCBrand").val();
             Cprd.Type = $("#txtCType").val();
             Cprd.Description = $("#txtCDescription").val();
-            debugger;
 
             //luu du lieu vao database
             /*data.push(_product);*/
@@ -365,7 +400,6 @@ class Products {
                 contentType: "application/json",
                 dataType: "json"
             }).done(function (res) {
-                debugger;
                 self.loadData();
                 $('.dialog').hide();
                 $('.dialog-change').hide();
@@ -373,26 +407,6 @@ class Products {
             }).fail(function (res) {
                 debugger;
             })
-    }
-    FindOnClick() {
-        //lay thong tin tim kiem
-        var Fprd_find = $("#txt-Find").val();
-        var self = this;
-        // tim kiem API
-        if (Fprd_find != '') {
-            if ($("#Menu").val() == "Name") {
-                self.Find_Name(Fprd_find);
-            }
-            else if ($("#Menu").val() == "Brand") {
-                self.Find_Brand(Fprd_find);
-            }
-            else {
-                alert("NONE");
-            }
-        }
-        else {
-            self.loadData();
-        }
     }
     checkID() {
         var tID = $("#txtID").val();
