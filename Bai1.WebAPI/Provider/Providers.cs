@@ -23,35 +23,60 @@ namespace Bai1.WebAPI.Provider
             sqlCommand = sqlConnection.CreateCommand();
             sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
         }
-        public IEnumerable<Product> GetProducts(int Page, int PageSize) 
+        public Res GetProducts(int Page, int PageSize)
         {
+            var n = new Res();
             //khai bao cau truy van
             sqlCommand.CommandText = "Select_all_product";
             sqlCommand.Parameters.AddWithValue("@Page", Page);
             sqlCommand.Parameters.AddWithValue("@PageSize", PageSize);
-            return this.excute();
+            n.Data = this.excute();
+            n.Page = Page;
+            n.PageSize = 5;
+            n.Total = n.Data.Count();
+            if (n.Total > 0)
+                n.Response = "Success";
+            else n.Response = "NULL";
+            return n;
         }
-        public  IEnumerable<Product> GetProducts(int product_id)
+        public Res GetProducts(int product_id)
         {
+            var n = new Res();
             //khai bao cau truy van
             sqlCommand.CommandText = "Select_ID_product";
             //Gan gia tri cho cac bien  
             sqlCommand.Parameters.AddWithValue("@ID", product_id);
-            return this.excute();
+            n.Data = this.excute();
+            n.Page = 1;
+            n.PageSize = 5;
+            n.Total = n.Data.Count();
+            if (n.Total > 0)
+                n.Response = "Success";
+            else n.Response = "NULL";
+            return n;
         }
-        public IEnumerable<Product> FindProducts(string product_info, string product_type, int Page, int PageSize)
+        public Res FindProducts(string product_info, string product_type, int Page, int PageSize)
         {
-                //khai bao cau truy van
-                sqlCommand.CommandText = "Find_Product";
-                //Gan gia tri cho cac bien  
-                sqlCommand.Parameters.AddWithValue("@Info", product_info);
-                sqlCommand.Parameters.AddWithValue("@Type", product_type);
-                sqlCommand.Parameters.AddWithValue("@Page", Page);
-                sqlCommand.Parameters.AddWithValue("@PageSize", PageSize);
-            return this.excute();
+            var n = new Res();
+            //khai bao cau truy van
+            sqlCommand.CommandText = "Find_Product";
+            //Gan gia tri cho cac bien  
+            sqlCommand.Parameters.AddWithValue("@Info", product_info);
+            sqlCommand.Parameters.AddWithValue("@Type", product_type);
+            sqlCommand.Parameters.AddWithValue("@Page", Page);
+            sqlCommand.Parameters.AddWithValue("@PageSize", PageSize);
+            n.Data = this.excute();
+            n.Page = 1;
+            n.PageSize = 5;
+            n.Total = n.Data.Count();
+            if (n.Total > 0)
+                n.Response = "Success";
+            else n.Response = "NULL";
+            return n;
         }
-        public int GetTotal(string info, string type)
+        public Res GetTotal(string info, string type)
         {
+            var n = new Res();
             //khai bao cau truy van
             sqlCommand.CommandText = "Total";
             //Gan gia tri cho cac bien
@@ -61,30 +86,27 @@ namespace Bai1.WebAPI.Provider
             sqlConnection.Open();
             // Thuc thi cong viec voi database
             SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-            int total = 0;
-
+            n.Total = 0;
             if (sqlDataReader.Read())
             {
-                total = (int)sqlDataReader["TOTAL"];
+                n.Total = (int)sqlDataReader["TOTAL"];
             }
-            return total;
+            n.Data = Enumerable.Empty<Product>();
+            n.Page = 0;
+            n.PageSize = 0;
+            if (n.Total > 0)
+                n.Response = "Success";
+            else n.Response = "NULL";
+            return n;
         }
-        public IEnumerable<Product> GetPage(int Ignore, int Size)
+
+        public Res InsertProducts(Product prd)
         {
-            //khai bao cau truy van
-            sqlCommand.CommandText = "Paging";
-            //Gan gia tri cho cac bien  
-            sqlCommand.Parameters.AddWithValue("@Ignore", Ignore);
-            sqlCommand.Parameters.AddWithValue("@Size", Size);
-            return this.excute();
-        }
-        public int InsertProducts(Product prd)
-        {
+            var x = new Product() ;
+            var n = new Res();
             //khai bao cau truy van
             sqlCommand.CommandText = "Insert_product";
             //Gan gia tri cho cac bien 
-            sqlCommand.Parameters.AddWithValue("@ID", prd.ID);
-            sqlCommand.Parameters.AddWithValue("@Code", prd.Code);
             sqlCommand.Parameters.AddWithValue("@Name", prd.Name);
             sqlCommand.Parameters.AddWithValue("@Category", prd.Category);
             sqlCommand.Parameters.AddWithValue("@Brand", prd.Brand);
@@ -92,12 +114,28 @@ namespace Bai1.WebAPI.Provider
             sqlCommand.Parameters.AddWithValue("@Description", prd.Description);
             //Mo ket noi
             sqlConnection.Open();
-            // Thuc thi cong viec voi database
-            var result = sqlCommand.ExecuteNonQuery();
-            return result;
+            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+            n.Page = 0;
+            n.PageSize = 0;
+            if (sqlDataReader.Read())
+            {
+                n.Response = "Success";
+                x.ID = (int)sqlDataReader["ID"];
+                x.Code = (string)sqlDataReader["Code"];
+                x.Name = prd.Name;
+                x.Category = prd.Category;
+                x.Brand = prd.Brand;
+                x.Type = prd.Type;
+                x.Description = prd.Description;
+            }
+            else n.Response = "Fail";
+            n.Data = new List<Product> { x };
+            n.Total = n.Data.Count();
+            return n;
         }
-        public int UpdateProducts(int product_id, Product prd)
+        public Res UpdateProducts(int product_id, Product prd)
         {
+            var n = new Res();
             //khai bao cau truy van
             sqlCommand.CommandText = "Update_product";
             //Gan gia tri cho cac bien 
@@ -112,10 +150,18 @@ namespace Bai1.WebAPI.Provider
             sqlConnection.Open();
             // Thuc thi cong viec voi database
             var result = sqlCommand.ExecuteNonQuery();
-            return result;
+            n.Data = new List<Product> { prd };
+            n.Page = 0;
+            n.PageSize = 0;
+            n.Total = n.Data.Count();
+            if (result != 0)
+                n.Response = "Success";
+            else n.Response = "Fail";
+            return n;
         }
-        public int DeleteProducts(int product_id)
+        public Res DeleteProducts(int product_id)
         {
+            var n = new Res();
             //khai bao cau truy van
             sqlCommand.CommandText = "Delete_product";
             //Gan gia tri cho cac bien 
@@ -124,7 +170,14 @@ namespace Bai1.WebAPI.Provider
             sqlConnection.Open();
             // Thuc thi cong viec voi database
             var result = sqlCommand.ExecuteNonQuery();
-            return result;
+            n.Data = Enumerable.Empty<Product>();
+            n.Page = 0;
+            n.PageSize = 0;
+            n.Total = result;
+            if (result != 0)
+                n.Response = "Success";
+            else n.Response = "Fail";
+            return n;
         }
         public IEnumerable<Product> excute()
         {
@@ -153,6 +206,10 @@ namespace Bai1.WebAPI.Provider
                 //Them doi tuong vao list
                 yield return pro;
             }
+        }
+        public string Error (string res)
+        {
+            return res;
         }
 
         public void Dispose()

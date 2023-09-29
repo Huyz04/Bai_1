@@ -36,7 +36,7 @@ class Products {
             contentType: "",
             dataType: ""
         }).done(function (response) {
-            TotalPage = Math.ceil(response/PageSize);
+            TotalPage = Math.ceil(response.Total/PageSize);
         }).fail(function(response) {
         debugger;
     })
@@ -49,7 +49,7 @@ class Products {
             contentType: "",
             dataType: ""
         }).done(function (response) {
-            TotalPage = Math.ceil(response / PageSize);
+            TotalPage = Math.ceil(response.Total / PageSize);
         }).fail(function (response) {
             debugger;
         })
@@ -64,7 +64,7 @@ class Products {
             dataType: ""
         }).done(function (response) {
             $('.Content tbody').empty();
-            $.each(response, function (index, item) {
+            $.each(response.Data, function (index, item) {
                 var trHTML = $(` <tr class="row">
                         <td>`+ item.ID + `</td>
                         <td>`+ item.Code + `</td>
@@ -88,7 +88,7 @@ class Products {
             method: "GET"
         }).done(function (response) {
             $('.Content tbody').empty();
-            $.each(response, function (index, item) {
+            $.each(response.Data, function (index, item) {
                 var trHTML = $(` <tr class="row">
                         <td>`+ item.ID + `</td>
                         <td>`+ item.Code + `</td>
@@ -123,7 +123,7 @@ class Products {
     AddOnClick() {
         $('.dialog').show();
         $('.dialog-add').show();
-        $('#txtID').focus();
+        $('#txtName').focus();
         $("input").val("");
     }
     DeleteOnClick() {
@@ -138,6 +138,7 @@ class Products {
             }).done(function (res) {
                 if (res) {
                     self.loadData();
+                    self.loadTotal();
                     alert("Xoa thanh cong");
                 } else { alert("Du lieu khong con tren he thong") }
             }).fail(function () {
@@ -158,16 +159,16 @@ class Products {
                 url: "/products/" + CID,
                 method:"GET"
             }).done(function (res) {
-                if (!res) {
+                if (!res.Data) {
                     alert('Khong co thong tin product nay');
                 } else {
-                    $("#txtCID").val(res["ID"]);
-                    $("#txtCCode").val(res["Code"]);
-                    $("#txtCName").val(res["Name"]);
-                    $("#txtCCategory").val(res["Category"]);
-                    $("#txtCBrand").val(res["Brand"]);
-                    $("#txtCType").val(res["Type"]);
-                    $("#txtCDescription").val(res["Description"]);
+                    $("#txtCID").val(res.Data[0].ID);
+                    $("#txtCCode").val(res.Data[0].Code);
+                    $("#txtCName").val(res.Data[0].Name);
+                    $("#txtCCategory").val(res.Data[0].Category);
+                    $("#txtCBrand").val(res.Data[0].Brand);
+                    $("#txtCType").val(res.Data[0].Type);
+                    $("#txtCDescription").val(res.Data[0].Description);
                 }
             }).fail(function () {
                 debugger;
@@ -209,7 +210,7 @@ class Products {
                 dataType: ""
             }).done(function (response) {
                 $('.Content tbody').empty();
-                $.each(response, function (index, item) {
+                $.each(response.Data, function (index, item) {
                     var trHTML = $(` <tr class="row">
                         <td>`+ item.ID + `</td>
                         <td>`+ item.Code + `</td>
@@ -245,7 +246,7 @@ class Products {
                     dataType: ""
                 }).done(function (response) {
                     $('.Content tbody').empty();
-                    $.each(response, function (index, item) {
+                    $.each(response.Data, function (index, item) {
                         var trHTML = $(` <tr class="row">
                         <td>`+ item.ID + `</td>
                         <td>`+ item.Code + `</td>
@@ -284,7 +285,7 @@ class Products {
                     dataType: ""
                 }).done(function (response) {
                     $('.Content tbody').empty();
-                    $.each(response, function (index, item) {
+                    $.each(response.Data, function (index, item) {
                         var trHTML = $(` <tr class="row">
                         <td>`+ item.ID + `</td>
                         <td>`+ item.Code + `</td>
@@ -322,7 +323,7 @@ class Products {
                 dataType: ""
             }).done(function (response) {
                 $('.Content tbody').empty();
-                $.each(response, function (index, item) {
+                $.each(response.Data, function (index, item) {
                     var trHTML = $(` <tr class="row">
                         <td>`+ item.ID + `</td>
                         <td>`+ item.Code + `</td>
@@ -340,21 +341,10 @@ class Products {
         }
     }
     btnSaveOnClick() {
-        //kiem tra du lieu nhap tren form
-        var tID = $("#txtID").val();
-        if (!tID) {
-            $("#txtID").addClass('error');
-            $("#txtID").attr("title", "Thong tin bat buoc nhap");
-        } else {
-            $("#txtID").removeClass('error');
-            $("#txtID").removeAttr("title");
-        }
-        //lay thong tin
-        if (tID) {
+
+            //lay thong tin
             var _product = {};
             var self = this;
-            _product.ID = $("#txtID").val();
-            _product.Code = $("#txtCode").val();
             _product.Name = $("#txtName").val();
             _product.Category = $("#txtCategory").val();
             _product.Brand = $("#txtBrand").val();
@@ -370,13 +360,13 @@ class Products {
                 dataType: "json"
             }).done(function (res) {
                 self.loadData();
+                self.loadTotal();
                 $('.dialog').hide();
                 $('.dialog-add').hide();
                 alert("Them thanh cong")
             }).fail(function (res) {
                 debugger;
             })
-        }
 
     }
     btnCSaveOnClick() {
@@ -401,11 +391,12 @@ class Products {
                 dataType: "json"
             }).done(function (res) {
                 self.loadData();
+                self.loadTotal();
                 $('.dialog').hide();
                 $('.dialog-change').hide();
                 alert("Sua thanh cong")
             }).fail(function (res) {
-                debugger;
+                alert('Code trung lap trong CSDL, thu Code khac!');
             })
     }
     checkID() {

@@ -11,6 +11,7 @@ using Bai1.WebAPI.Provider;
 using System.CodeDom;
 using Microsoft.EntityFrameworkCore;
 using System.Web.Configuration;
+using System.Threading.Tasks;
 
 
 namespace Bai1.WebAPI.Controllers
@@ -20,7 +21,7 @@ namespace Bai1.WebAPI.Controllers
     {
         // GET: api/Bai1
         [Route("all")]
-        public IEnumerable<Product> Get([FromUri] int Page, [FromUri] int PageSize )
+        public Res Get([FromUri] int Page, [FromUri] int PageSize )
         {
             try
             {
@@ -35,7 +36,7 @@ namespace Bai1.WebAPI.Controllers
 
         // GET: api/Bai1/5
         [Route("{product_id}")]
-        public object Get(int  product_id)
+        public Res Get(int  product_id)
         {
             try
             {
@@ -47,35 +48,25 @@ namespace Bai1.WebAPI.Controllers
                 throw;
             }
         }
-        //GET TEST
+        ////GET TEST
 
-        [Route("test")]
-        public IHttpActionResult GetTest()
-        {
-            var productss = new Product[]
-            {
-                new Product() { ID = 1, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
-                new Product() { ID = 2, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
-                new Product() { ID = 3, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
-                new Product() { ID = 4, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
-                new Product() { ID = 5, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" },
-                new Product() { ID = 6, Code = "P01", Name = "IP 11", Category =" 128 GB", Brand = "Apple", Type = "11", Description ="IP 11 128 GB" }
-            };
-            Res m = new Res
-            {
-                Response = "Success",
-                Data = productss,
-                Page = 1,
-                PageSize = 5,
-                Total = productss.Length
-            };
-
-            return Ok(m);
-        }
+        //[Route("test")]
+        //public Res GetTest([FromUri] int Page, [FromUri] int PageSize)
+        //{
+        //    try
+        //    { 
+        //    var n = new mainn();
+        //        return n.GetTest(Page, PageSize);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         // GET total
         [Route("total")]
-        public int GetTotal([FromUri] string info, [FromUri] string type)
+        public Res GetTotal([FromUri] string info, [FromUri] string type)
         {
             try
             {
@@ -91,7 +82,7 @@ namespace Bai1.WebAPI.Controllers
 
         // GET: api/Bai1/Name/Namee
         [Route("find")]
-        public IEnumerable<Product> GetFind([FromUri] string product_info, [FromUri] string product_type, [FromUri] int Page, [FromUri] int PageSize)
+        public Res GetFind([FromUri] string product_info, [FromUri] string product_type, [FromUri] int Page, [FromUri] int PageSize)
         {
             try
             {
@@ -106,7 +97,7 @@ namespace Bai1.WebAPI.Controllers
 
         // POST: api/Bai1 
         [Route("")]
-        public int Post([FromBody]Product prd)
+        public Res Post([FromBody]Product prd)
         {
             try
             {
@@ -114,14 +105,14 @@ namespace Bai1.WebAPI.Controllers
                 return m.InsertProducts(prd);
             }
             catch (Exception)
-            {
+            {   
                 throw;
             }
         }
 
         // PUT: api/Bai1/5
         [Route("{product_id}")]
-        public int Put(int product_id, [FromBody]Product prd)
+        public Res Put(int product_id, [FromBody]Product prd)
         {
             try
             {
@@ -136,7 +127,7 @@ namespace Bai1.WebAPI.Controllers
 
         // DELETE: api/Bai1/5
         [Route("{product_id}")]
-        public int Delete(int product_id)
+        public Res Delete(int product_id)
         {
             try
             {
